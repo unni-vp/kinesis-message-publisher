@@ -16,6 +16,7 @@ local.properties
 .recommenders
 
 target/
+logs/
 
 # External tool builders
 .externalToolBuilders/
