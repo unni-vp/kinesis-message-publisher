@@ -1,0 +1,18 @@
+server:
+   port: 8086
+    
+cloud.aws:
+   credentials:
+      access-key: XXXXXXXXXXXXXXXXXX
+      secret-key: XXXXXXXXXXXXXXXXXX
+   region.static: ap-south-1
+   stack.auto: false
+
+spring.cloud.stream.bindings.output:
+   destination: thingworx-telemetry-stream
+   content-type: application/json
+   
+telemetry:
+   deviceIds: device-123,device-234,device-345
+   deviceType: Sample_Device
+   interval: 10000
