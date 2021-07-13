@@ -25,7 +25,6 @@ public class IntegrationTest {
 	public void testKinesisPublisher_Success() {
 		
 		boolean status = kinesisMessageSource.produce(TelemetrySimulator.getSimulatedTelemetryMessage("Test123", "TestDevice"));
-		
 		assertTrue("Kinesis publishing failed", status);
 	}
 	

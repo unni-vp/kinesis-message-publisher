@@ -47,21 +47,21 @@ public class KinesisMessageSource {
 	 */
 	public boolean produce(String payload) {
 		
+		logger.info("Publishing telemetry payload to Kinesis. Payload message : " + payload);
 		return source.output().send(MessageBuilder.withPayload(payload).build());
 	}
 
 	@Scheduled(fixedRate = TELEMETRY_INTERVAL)
 	private void produce() {
 
-		logger.debug("Telemetry Scheduler execution Start");
+		logger.debug("Kinesis publisher execution Start");
 
 		deviceIdList.forEach(deviceId -> {
 			
 			produce(TelemetrySimulator.getSimulatedTelemetryMessage(deviceId, deviceType));
-			logger.info("Telemetry payload published to Kinesis. Device Id : " + deviceId);
 		});
 
-		logger.debug("Telemetry Scheduler execution End");
+		logger.debug("Telemetry publisher execution End");
 	}
 
 }

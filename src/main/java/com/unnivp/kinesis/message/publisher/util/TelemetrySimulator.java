@@ -13,7 +13,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.unnivp.kinesis.message.publisher.domain.TelemetryPayload;
-import com.unnivp.kinesis.message.publisher.domain.TelemetryServiceRequest;
 import com.unnivp.kinesis.message.publisher.domain.VTParam;
 
 /**
@@ -27,21 +26,21 @@ public class TelemetrySimulator {
 	private static final Logger logger = LoggerFactory.getLogger(TelemetrySimulator.class);
 
 	/**
-	 * Get a sample request message for sending device telemetry.
+	 * Get a sample telemetry message for sending device telemetry.
 	 * 
 	 * @param deviceId
-	 *            device identifier for the payload
+	 *            device identifier
 	 * @param deviceType
 	 *            device type
-	 * @return JSON string of the telemetry request
+	 * @return JSON string representation of the telemetry payload
 	 */
 	public static String getSimulatedTelemetryMessage(String deviceId, String deviceType) {
 
-		return JSONUtil.getJsonString(prepareTelemetryRequest(deviceId, deviceType));
+		return JSONUtil.getJsonString(prepareTelemetryPayload(deviceId, deviceType));
 	}
 
 	/**
-	 * Prepare sample request message for sending device telemetry.
+	 * Prepare sample payload message for sending device telemetry.
 	 * 
 	 * @param deviceId
 	 *            device identifier for the payload
@@ -49,12 +48,11 @@ public class TelemetrySimulator {
 	 *            device type
 	 * @return request object containing telemetry payload
 	 */
-	private static TelemetryServiceRequest prepareTelemetryRequest(String deviceId, String deviceType) {
+	private static TelemetryPayload prepareTelemetryPayload(String deviceId, String deviceType) {
 
-		TelemetryServiceRequest message = new TelemetryServiceRequest();
-		TelemetryPayload records = new TelemetryPayload();
-		records.setDeviceId(deviceId);
-		records.setDeviceType(deviceType);
+		TelemetryPayload payload = new TelemetryPayload();
+		payload.setDeviceId(deviceId);
+		payload.setDeviceType(deviceType);
 
 		List<VTParam> parameters = new ArrayList<>();
 		Map<String, Double> telemeteyParamMap = getTelemetyAttributeMap();
@@ -68,11 +66,10 @@ public class TelemetrySimulator {
 			parameter.setValue(getRandomDouble(value, 4, 2));
 			parameters.add(parameter);
 		});
-		records.setTelemetryParameters(parameters);
-		message.setPayload(records);
+		payload.setTelemetryParameters(parameters);
 
 		logger.debug("Telemetry data added for " + deviceId + " : " + timestamp.getTime());
-		return message;
+		return payload;
 	}
 
 	/**
